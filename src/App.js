@@ -1,48 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
-import {auth} from './firebase.js'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './Pages/Login';
+import Home from './Pages/Home';
 
-// import { GoogleAuthProvider } from "firebase/auth";
-import {  signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
 
 
 
 function App() {
-  const provider = new GoogleAuthProvider();
-  provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-  provider.setCustomParameters({
-    'login_hint': 'user@example.com'
-  });
+  
 
-  function makeLogin() {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          // The signed-in user info.
-          const user = result.user;
-          console.log('user', user)
-          // ...
-        }).catch((error) => {
-          // Handle Errors here.
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = GoogleAuthProvider.credentialFromError(error);
-          // ...
-        });
-
-  }
+  
 
  
 
   return (
-    <div className="App">
-      <button onClick={makeLogin}>Login com google</button>
-    </div>
+   <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />} />
+          <Route exact path="/" element={ <Navigate to="/login" /> }> </Route>
+        </Routes>
+      </BrowserRouter>
+   </>
   );
 }
 
